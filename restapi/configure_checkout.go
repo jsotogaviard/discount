@@ -37,7 +37,7 @@ func configureAPI(api *operations.CheckoutAPI) http.Handler {
 
 	app := application.GetApplication()
 
-	api.CheckoutCheckoutHandler = checkout.CheckoutHandlerFunc(app.Checkout)
+	api.CheckoutCartHandler = checkout.CartHandlerFunc(app.Checkout)
 	api.CheckoutDeleteHandler = checkout.DeleteHandlerFunc(app.Delete)
 	api.CheckoutPriceHandler = checkout.PriceHandlerFunc(app.Price)
 	api.CheckoutScanHandler = checkout.ScanHandlerFunc(app.Scan)
