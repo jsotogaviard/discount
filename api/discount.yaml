@@ -1,0 +1,175 @@
+# Spec version
+swagger: '2.0'
+
+info:
+    title: Checkout API
+    description: "An API to checkout, scan and price items"
+    version: "2.0.0"
+
+# Scheme information not included
+# Host information not included
+
+basePath: /api/v1/checkout
+
+consumes: ["application/json"]
+
+produces: ["application/json"]
+
+paths:
+
+      '/':
+          get:
+            summary: Create cart
+            description: |
+                Return the id of the cart
+            tags:
+                - Checkout
+            operationId: cart
+            responses:
+                200:
+                  description: Success
+                  schema:
+                    $ref: "#/definitions/cart"
+                400:
+                  $ref: "#/responses/BadRequest"
+                500:
+                  $ref: "#/responses/InternalServerError"
+
+      '/{id}':
+            delete:
+                summary: Delete cart
+                description: |
+                    Delete cart
+                tags:
+                    - Checkout
+                operationId: delete
+                parameters:
+                  - $ref: "#/parameters/idPathParam"
+                responses:
+                    200:
+                      description: Successful response
+                    404:
+                      $ref: "#/responses/NotFound"
+                    500:
+                      $ref: "#/responses/InternalServerError"
+
+      '/{id}/scan':
+            post:
+                summary: Add items to the cart
+                description: |
+                    Add items to the cart
+                tags:
+                    - Checkout
+                operationId: scan
+                parameters:
+                  - $ref: "#/parameters/itemsBodyParam"
+                  - $ref: "#/parameters/idPathParam"
+                responses:
+                    200:
+                      description: Successful response
+                    400:
+                      $ref: "#/responses/BadRequest"
+                    404:
+                      $ref: "#/responses/NotFound"
+                    500:
+                      $ref: "#/responses/InternalServerError"
+
+      '/{id}/price':
+            get:
+                summary: Price of the cart
+                description: |
+                    Price of the cart
+                tags:
+                    - Checkout
+                operationId: price
+                parameters:
+                  - $ref: "#/parameters/idPathParam"
+                responses:
+                    200:
+                      description: Success
+                      schema:
+                        $ref: "#/definitions/price"
+                    404:
+                      $ref: "#/responses/NotFound"
+                    500:
+                      $ref: "#/responses/InternalServerError"
+
+definitions:
+
+    price:
+        title: Price
+        type: object
+        description: "price"
+        properties:
+          price:
+            type: number
+          currency:
+            type: string
+
+    cart:
+        title: cart
+        type: object
+        description: "cart"
+        properties:
+          id:
+            type: string
+
+    notFound:
+        title: Properties of entity response error 404
+        type: object
+        description: "Not Found"
+        properties:
+            msg:
+              type: string
+
+    internalServerError:
+        title: Properties of entity response error 500
+        type: object
+        description: "An error prevents the system from fulfilling the request"
+        properties:
+            msg:
+              type: string
+
+    badRequest:
+        title: Properties of entity response error 400
+        type: object
+        description: "The request could not be understood by the server due to malformed syntax"
+        properties:
+            msg:
+              type: string
+
+parameters:
+
+    itemsBodyParam:
+      name: items
+      in: body
+      description: The items
+      required: true
+      schema:
+        type: object
+        properties:
+           items:
+              type: array
+              items:
+                type: string
+
+    idPathParam:
+      name: id
+      in: path
+      description: The id of the param
+      required: true
+      type: string
+
+responses:
+    NotFound:
+        description: "Not Found"
+        schema:
+          $ref: "#/definitions/notFound"
+    BadRequest:
+            description: "Bad Request"
+            schema:
+              $ref: "#/definitions/badRequest"
+    InternalServerError:
+          description: "An error prevents the system from fulfilling the request"
+          schema:
+            $ref: "#/definitions/internalServerError"

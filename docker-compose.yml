@@ -1,0 +1,10 @@
+version: '2.1'
+services:
+    go:
+        build: .
+        ports:
+            - "8000:8000"
+        environment:
+            - PORT=8000
+            - HOST=0.0.0.0
+            - parallelism=8

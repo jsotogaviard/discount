@@ -1,0 +1,10 @@
+.idea/
+restapi/operations
+restapi/doc.go
+restapi/embedded_spec.go
+restapi/server.go
+client/checkout
+client/checkout_client.go
+models
+cmd
+vendor
