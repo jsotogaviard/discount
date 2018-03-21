@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 	"sync"
+	"github.com/jsotogaviard/discount/models"
 )
 
 func TestWholeSequence(t *testing.T) {
@@ -30,16 +31,17 @@ func singleSequence(t *testing.T, num int, wg *sync.WaitGroup){
 		tConfig := DefaultTransportConfig()
 		tConfig.WithHost("127.0.0.1:8000")
 		client := NewHTTPClientWithConfig(nil, tConfig)
-		p := &checkout.CheckoutParams{}
-		checkResp, checkErr := client.Checkout.Checkout(p.WithTimeout(2 * time.Second))
+		p := &checkout.CartParams{}
+		checkResp, checkErr := client.Checkout.Cart(p.WithTimeout(2 * time.Second))
 		if checkErr != nil {
 			log.Fatal(checkErr)
 		}
 
+		items := &models.ScanParamsBody{[]string{"MUG"},}
 		// Scan test
 		scanParams := &checkout.ScanParams{
 			ID:    checkResp.Payload.ID,
-			Items: []string{"MUG"},
+			Items: items,
 		}
 		_, scanErr := client.Checkout.Scan(scanParams.WithTimeout(2 * time.Second))
 		if scanErr != nil {
