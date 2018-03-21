@@ -14,8 +14,8 @@ There are three requisites:
 
 To start the application
 ```bash
-curl -o start.sh https://raw.githubusercontent.com/jsotogaviard/discount/master/start.sh
-./start.sh
+curl -o discount.sh https://raw.githubusercontent.com/jsotogaviard/discount/master/discount.sh
+./discount.sh
 ```
 
 You can check the service is up by calling:
