@@ -94,12 +94,13 @@ In this case there is some performance gain but not as important as in the other
 
 **`This service is able to handle 4500 requests per second`**  
 
-## Integration tests
+## Dep
+Dependency management is handled by dep
+
+
+# Integration tests
 There are four integration tests related to each of the possible operations:
 - Create a new cart 
 - Scan a product
 - Get the total amount
 - Remove the cart
-
-## Dep
-Dependency management is handled by dep
